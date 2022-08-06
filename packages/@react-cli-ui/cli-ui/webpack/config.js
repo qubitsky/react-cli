@@ -30,7 +30,7 @@ const paths = {
   appIcons: resolveApp('src/assets/icons'),
   appTsConfig: resolveApp('tsconfig.json'),
   appStyles: resolveApp('src/styles'),
-  appNodeModules: resolveApp('node_modules')
+  appNodeModules: 'node_modules'
 }
 
 module.exports = {

@@ -13,7 +13,7 @@ const locale = {
     logs: 'Logs'
   },
   project: {
-    headerTitle: 'React Project Manager',
+    headerTitle: 'Frontend Project Manager',
     projects: 'Projects',
     create: 'Create',
     import: 'Import',

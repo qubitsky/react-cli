@@ -106,14 +106,14 @@ function DependenciesModal ({ visible, closeModal, setLoading, setTitle }: Modal
           />
           <div className={css.wrapper}>
             {!!packages.length && packages.map(el => {
-              const { package } = el
-              const key = package.name || `${package?.links.npm}`
+              const { package: pkg } = el
+              const key = pkg.name || `${pkg?.links.npm}`
               return (
                 <ItemPackages
                   key={key}
                   active={active}
                   change={setActive}
-                  pkg={package}
+                  pkg={pkg}
                 />
               )
             })}
