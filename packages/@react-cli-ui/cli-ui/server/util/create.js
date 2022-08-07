@@ -17,7 +17,25 @@ function craYarn (pathProject, name) {
   )
 }
 
+// vue create app use npm
+function vcNpm(pathProject, name) {
+  return execa.command(
+    `cd ${path.join('/', ...pathProject)} && npx vue create ${name} -d`,
+    { shell: true }
+  )
+}
+
+// vue create app use yarn
+function vcYarn(pathProject, name) {
+  return execa.command(
+    `cd ${path.join('/', ...pathProject)} && yarn create vue-app ${name} -d`,
+    { shell: true }
+  )
+}
+
 module.exports = {
+  vcYarn,
+  vcNpm,
   craYarn,
   craNpm
 }

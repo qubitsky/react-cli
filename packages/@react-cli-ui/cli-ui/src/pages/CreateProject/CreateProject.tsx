@@ -21,7 +21,8 @@ const optionsManager = [
 ]
 
 const optionsPreset = [
-  { value: 'create-react-app', label: 'create-react-app' }
+  { value: 'create-react-app', label: 'create-react-app' },
+  { value: 'vue-create', label: 'vue create' },
   // TODO create custorm-react-app
   // { value: 'custom-react-app', label: 'custom-react-app' }
 ]

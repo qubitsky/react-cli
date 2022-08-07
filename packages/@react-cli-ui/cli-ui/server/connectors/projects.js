@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const { craNpm, craYarn } = require('../util/create')
+const projectCreators = require('../util/create')
 const { v4: uuid } = require('uuid')
 
 const StaticMethods = require('./utils')
@@ -78,12 +78,16 @@ class ProjectApi extends StaticMethods {
   createProject (name, pathProject, manager, preset) {
     fs.readdir(path.join('/', ...pathProject, name), async (err, files) => {
       if (err) {
-        let subprocess
-        if (manager === 'npm') {
-          subprocess = craNpm(pathProject, name)
-        } else {
-          subprocess = craYarn(pathProject, name)
+        let subprocess, creatorName = 'cra'
+        if (preset === 'vue-create') {
+          creatorName = 'vc'
         }
+        if (manager === 'yarn') {
+          creatorName += 'Yarn'
+        } else {
+          creatorName += 'Npm'
+        }
+        subprocess = projectCreators[creatorName](pathProject, name)
 
         try {
           subprocess.stdout.pipe(process.stdout)
