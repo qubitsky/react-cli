@@ -10,6 +10,19 @@ const storageSelectedPathName = 'selectedPath'
 const PORT = process.env.NODE_ENV === 'development' ? 8081 : 8080
 const initSocket = openSocket(`http://localhost:${PORT}`)
 
+const allLocales = [
+  'en',
+  'zh',
+  'ru'
+]
+
+const nextLocaleMap: Record<string, string> = {};
+for (let i = 0; i < allLocales.length; i++) {
+  const locale = allLocales[i];
+  const nextLocale = allLocales[(i + 1) % allLocales.length];
+  nextLocaleMap[locale] = nextLocale;
+}
+
 export function useSettings () {
   const [darkTheme, setDarkTheme] = useState<boolean | null>(null)
   const [locale, setLocale] = useState<string | null>(null)
@@ -31,7 +44,7 @@ export function useSettings () {
   }, [darkTheme])
 
   const changeLocale = useCallback(() => {
-    const changedLocale = locale === 'en' ? 'ru' : 'en'
+    const changedLocale = locale ? nextLocaleMap[locale] : allLocales[0];
     localStorage.setItem(storageLocaleName, JSON.stringify(changedLocale))
     setLocale(changedLocale)
     i18n.changeLanguage(changedLocale)
