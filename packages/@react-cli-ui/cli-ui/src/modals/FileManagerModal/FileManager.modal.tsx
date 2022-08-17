@@ -1,13 +1,13 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import cn from 'classnames'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
 
-import { SettingsContext } from 'context'
-import { Modal, FileManager } from '@components'
+import { SettingsContext } from 'context';
+import { Modal, FileManager } from '@components';
 
-import EditIcon from '@icons/edit-pen.svg'
+import { EditIcon } from '@anya-ui/icons';
 
-import css from './style.module.less'
+import css from './style.module.less';
 
 export interface ModalFolder {
   folderName: string;
@@ -16,17 +16,17 @@ export interface ModalFolder {
   closeModal?(e: React.MouseEvent<HTMLElement>): void;
 }
 
-function FileManagerModal ({ folderName, visible, closeModal, showModal }: ModalFolder) {
-  const { t } = useTranslation('modal')
-  const { selectedPath, darkTheme } = React.useContext(SettingsContext)
+function FileManagerModal({ folderName, visible, closeModal, showModal }: ModalFolder) {
+  const { t } = useTranslation('modal');
+  const { selectedPath, darkTheme } = React.useContext(SettingsContext);
 
   const styles = cn(css.modal, {
-    [css.dark]: darkTheme
-  })
+    [css.dark]: darkTheme,
+  });
 
-  function onSubmit (e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-    typeof closeModal === 'function' && closeModal(e)
+  function onSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    typeof closeModal === 'function' && closeModal(e);
   }
 
   return (
@@ -48,7 +48,7 @@ function FileManagerModal ({ folderName, visible, closeModal, showModal }: Modal
         <FileManager />
       </Modal>
     </div>
-  )
+  );
 }
 
-export default React.memo(FileManagerModal)
+export default React.memo(FileManagerModal);

@@ -117,6 +117,12 @@ export default function CreateProject () {
     <Content>
       <div className={styles}>
         <h2 className={css.createTitle}>{t('createProjectTitle')}</h2>
+        <FileManagerModal
+          folderName={state.name}
+          visible={visible}
+          closeModal={closeModal}
+          showModal={showModal}
+        />
         <Input
           name="name"
           label={t('nameProject')}
@@ -125,19 +131,6 @@ export default function CreateProject () {
           className={css.projectName}
           value={state.name}
           onChange={handleChange}
-        />
-        <FileManagerModal
-          folderName={state.name}
-          visible={visible}
-          closeModal={closeModal}
-          showModal={showModal}
-        />
-        <Select
-          name="manager"
-          label={t('packageManager')}
-          onChange={handleChange}
-          options={optionsManager}
-          value={state.manager}
         />
         <Select
           name="preset"

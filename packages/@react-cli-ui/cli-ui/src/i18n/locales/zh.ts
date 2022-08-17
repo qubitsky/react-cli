@@ -29,12 +29,12 @@ const locale = {
   },
   projectCreate: {
     createProjectTitle: '创建新的项目',
-    nameProject: 'Project folder',
-    createProject: 'Create Project',
-    packageManager: 'Package manager',
-    selectPreset: 'Select a preset',
-    typeName: 'Type a name',
-    creatingProject: 'Creating project'
+    nameProject: '项目文件夹',
+    createProject: '创建项目',
+    packageManager: '包管理器',
+    selectPreset: '选择命令',
+    typeName: '输入项目名称',
+    creatingProject: '创建项目'
   },
   dashboard: {
     dashboard: 'Dashboard',

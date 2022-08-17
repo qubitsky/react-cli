@@ -1,12 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import ReactLogoIcon from '@icons/react-logo.svg'
-import VueLogoIcon from '@icons/vue-logo.svg'
-import FolderIcon from '@icons/folder.svg'
-import FolderFilledIcon from '@icons/folder-filled.svg'
-import { Folder as FolderProps } from './Folders'
+import { ReactLogoIcon, VueLogoIcon } from '@anya-ui/icons';
+import FolderIcon from '@icons/folder.svg';
+import { FolderFilledIcon } from '@anya-ui/icons';
+import { Folder as FolderProps } from './Folders';
 
-import css from './style.module.less'
+import css from './style.module.less';
 
 interface Props {
   folder: FolderProps;
@@ -14,26 +13,26 @@ interface Props {
 }
 
 // Item Folder
-export default function ItemFolder ({ folder, select }: Props) {
-  function renderFolderIcon () {
-    if (folder.type === 'empty') return <FolderIcon />
-    return <FolderFilledIcon />
+export default function ItemFolder({ folder, select }: Props) {
+  function renderFolderIcon() {
+    if (folder.type === 'empty') return <FolderIcon />;
+    return <FolderFilledIcon />;
   }
 
-  function renderProjectIcon () {
+  function renderProjectIcon() {
     switch (folder.type) {
       case 'react':
-        return <ReactLogoIcon className={css.reactIcon} />
+        return <ReactLogoIcon className={css.reactIcon} />;
       case 'vue':
-        return <VueLogoIcon />
+        return <VueLogoIcon />;
       default:
-        return null
+        return null;
     }
   }
 
   return (
     <div className={css.folderExplorerItem} onClick={() => select(folder.name)}>
-      <div className={css.folderName} >
+      <div className={css.folderName}>
         {renderFolderIcon()}
         <div className={css.folderNameText}>
           {folder.name}
@@ -41,5 +40,5 @@ export default function ItemFolder ({ folder, select }: Props) {
         </div>
       </div>
     </div>
-  )
+  );
 }

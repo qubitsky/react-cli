@@ -1,12 +1,20 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import ReactTooltip from 'react-tooltip'
-import cn from 'classnames'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import ReactTooltip from 'react-tooltip';
+import cn from 'classnames';
 
-import { DropdownTasks } from '@components'
-import { OpenEditorIcon, StarAddIcon, EditIcon, CloseIcon, StarIcon, ReactLogoIcon, VueLogoIcon } from '@icons'
+import { DropdownTasks } from '@components';
+import {
+  OpenEditorIcon,
+  StarAddIcon,
+  EditIcon,
+  CloseIcon,
+  StarIcon,
+  ReactLogoIcon,
+  VueLogoIcon,
+} from '@anya-ui/icons';
 
-import css from './style.module.less'
+import css from './style.module.less';
 
 interface Props {
   id: string;
@@ -23,7 +31,7 @@ interface Props {
   onFavorite(id: string): void;
 }
 
-export default function ProjectListItem ({
+export default function ProjectListItem({
   id,
   active,
   favorite,
@@ -35,22 +43,22 @@ export default function ProjectListItem ({
   onOpen,
   onOpenEdit,
   onDelete,
-  onFavorite
+  onFavorite,
 }: Props) {
-  const { t } = useTranslation('toolbar')
+  const { t } = useTranslation('toolbar');
 
   const styles = cn(css.content, {
-    [css.active]: id === active
-  })
+    [css.active]: id === active,
+  });
 
-  function renderProjectIcon () {
+  function renderProjectIcon() {
     switch (type) {
       case 'react':
-        return <ReactLogoIcon className={css.reactIcon} />
+        return <ReactLogoIcon className={css.reactIcon} />;
       case 'vue':
-        return <VueLogoIcon/>
+        return <VueLogoIcon />;
       default:
-        return null
+        return null;
     }
   }
 
@@ -58,7 +66,7 @@ export default function ProjectListItem ({
     <div className={styles}>
       <div className={css.favorite}>
         <button onClick={() => onFavorite(id)} data-tip={t('projects.add')}>
-          { favorite ? <StarAddIcon /> : <StarIcon /> }
+          {favorite ? <StarAddIcon /> : <StarIcon />}
         </button>
       </div>
       <div className={css.info}>
@@ -73,29 +81,23 @@ export default function ProjectListItem ({
             edit={() => console.log('edit')}
           />
         </div>
-        <div
-          className={css.path}
-          onClick={() => onOpen(id)}
-        >
-          { typeof path === 'object' ? `/${path.join('/')}` : `/${path}`}
+        <div className={css.path} onClick={() => onOpen(id)}>
+          {typeof path === 'object' ? `/${path.join('/')}` : `/${path}`}
         </div>
       </div>
       <div className={css.actions}>
         <button onClick={() => onOpenEdit(path)}>
-          <OpenEditorIcon/><span>{t('projects.open')}</span>
+          <OpenEditorIcon />
+          <span>{t('projects.open')}</span>
         </button>
         <button data-tip={t('projects.edit')}>
-          <EditIcon/>
+          <EditIcon />
         </button>
         <button onClick={() => onDelete(id)} data-tip={t('projects.delete')}>
-          <CloseIcon/>
+          <CloseIcon />
         </button>
       </div>
-      <ReactTooltip place="top"
-        effect="solid"
-        delayShow={700}
-        offset={{ top: -10 }}
-      />
+      <ReactTooltip place="top" effect="solid" delayShow={700} offset={{ top: -10 }} />
     </div>
-  )
+  );
 }

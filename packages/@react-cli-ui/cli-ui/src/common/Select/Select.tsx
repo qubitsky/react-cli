@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import SelectComponent, { Props } from 'react-select'
 import cn from 'classnames'
 
-import FolderFilledIcon from '@icons/folder-filled.svg'
+import { FolderFilledIcon } from '@anya-ui/icons'
 
 import css from './style.module.less'
 
@@ -25,7 +25,7 @@ interface OwnProps extends Props {
   onClick?: any;
 }
 
-function Select (props: OwnProps) {
+function Select(props: OwnProps) {
   const {
     options = {},
     className = null,
@@ -37,7 +37,7 @@ function Select (props: OwnProps) {
     styles = {}
   } = props
 
-  function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     onChange({
       value: event,
       name
