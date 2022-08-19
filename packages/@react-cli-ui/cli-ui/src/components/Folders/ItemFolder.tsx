@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { ReactLogoIcon, VueLogoIcon } from '@anya-ui/icons';
-import FolderIcon from '@icons/folder.svg';
-import { FolderFilledIcon } from '@anya-ui/icons';
+import { ReactLogoIcon, VueLogoIcon, FolderIcon, FolderFilledIcon } from '@anya-ui/icons';
 import { Folder as FolderProps } from './Folders';
 
 import css from './style.module.less';

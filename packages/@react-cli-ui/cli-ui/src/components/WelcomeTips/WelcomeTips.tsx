@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 
 import { SettingsContext } from 'context';
-import DashboardIcon from '@icons/dashboard-project.svg';
-import { ReactLogoIcon } from '@anya-ui/icons';
-import Arrow from '@icons/arrow-back.svg';
-import Home from '@icons/home-filled.svg';
+import {
+  ReactLogoIcon,
+  DashboardProjectIcon as DashboardIcon,
+  HomeFilledIcon as Home,
+  ArrowBackIcon as Arrow,
+} from '@anya-ui/icons';
 
 import css from './style.module.less';
 

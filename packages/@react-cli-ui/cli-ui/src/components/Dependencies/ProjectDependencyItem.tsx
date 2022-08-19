@@ -1,10 +1,9 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import LinkIcon from '@icons/link.svg'
-import LikeIcon from '@icons/like.svg'
-import DeleteIcon from '@icons/remove.svg'
-import css from './style.module.less'
+import { LinkIcon, LikeIcon, RemoveIcon as DeleteIcon } from '@anya-ui/icons';
+
+import css from './style.module.less';
 
 interface PropsItem {
   id: string;
@@ -16,13 +15,13 @@ interface PropsItem {
   delete: (name: string) => void;
 }
 
-export default function ProjectDependencyItem (item: PropsItem) {
-  const { t } = useTranslation('dependencies')
+export default function ProjectDependencyItem(item: PropsItem) {
+  const { t } = useTranslation('dependencies');
 
   return (
     <div className={css.content}>
       <div className={css.itemLogo}>
-        <img src={`https://avatars.dicebear.com/v2/identicon/${item.id}.svg`} alt=""/>
+        <img src={`https://avatars.dicebear.com/v2/identicon/${item.id}.svg`} alt="" />
       </div>
       <div className={css.listItemInfo}>
         <div className={css.name}>{item.id}</div>
@@ -31,13 +30,17 @@ export default function ProjectDependencyItem (item: PropsItem) {
             {t('version')}: {item.versionRange}
           </div>
           <div className={css.info}>
-            { item.installed
-              ? <div className={css.like}><LikeIcon /> {t('installed')}</div>
-              : <div>{t('noInstalled')}</div>}
+            {item.installed ? (
+              <div className={css.like}>
+                <LikeIcon /> {t('installed')}
+              </div>
+            ) : (
+              <div>{t('noInstalled')}</div>
+            )}
           </div>
           <div className={css.info}>
             <a href={item.website} target="_blank" rel="noreferrer">
-              <LinkIcon/> {t('moreInfo')}
+              <LinkIcon /> {t('moreInfo')}
             </a>
           </div>
           <div className={css.delete}>
@@ -46,5 +49,5 @@ export default function ProjectDependencyItem (item: PropsItem) {
         </div>
       </div>
     </div>
-  )
+  );
 }

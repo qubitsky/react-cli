@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { unstable_batchedUpdates as batch } from 'react-dom'
-import { useHistory } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
+import React, { useState, useEffect, useContext } from 'react';
+import { unstable_batchedUpdates as batch } from 'react-dom';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { Layout, Content, Empty, ProjectFilter, ProjectList, Loader } from '@components'
-import { useNotification } from '@hooks'
+import { Layout, Content, Empty, ProjectFilter, ProjectList, Loader } from '@components';
+import { useNotification } from '@hooks';
 
-import AddIcon from '@icons/add.svg'
-import ProjectIcon from '@icons/nav-projects.svg'
-import CloudIcon from '@icons/dashboard-tasks.svg'
-import ComputerIcon from '@icons/computer.svg'
+import {
+  NavProjectsIcon as ProjectIcon,
+  DashboardTasksIcon as CloudIcon,
+  AddIcon,
+  ComputerIcon,
+} from '@anya-ui/icons';
 
-import { SettingsContext } from '@context'
-import { Routes } from '../router'
+import { SettingsContext } from '@context';
+import { Routes } from '../router';
 
 export interface ProjectProps {
   id: string;
@@ -23,147 +25,147 @@ export interface ProjectProps {
   favorite: boolean;
 }
 
-function getKey (key: string) {
+function getKey(key: string) {
   if (key === 'start') {
-    return Routes.DASHBOARD_TASKS_START
+    return Routes.DASHBOARD_TASKS_START;
   } else if (key === 'build') {
-    return Routes.DASHBOARD_TASKS_BUILD
+    return Routes.DASHBOARD_TASKS_BUILD;
   } else if (key === 'test') {
-    return Routes.DASHBOARD_TASKS_TEST
+    return Routes.DASHBOARD_TASKS_TEST;
   } else if (key === 'eject') {
-    return Routes.DASHBOARD_TASKS_EJECT
+    return Routes.DASHBOARD_TASKS_EJECT;
   } else {
-    return Routes.DASHBOARD_TASKS
+    return Routes.DASHBOARD_TASKS;
   }
 }
 
-function getIcon (key: string) {
+function getIcon(key: string) {
   if (key === 'start') {
-    return ComputerIcon
+    return ComputerIcon;
   } else if (key === 'build') {
-    return CloudIcon
+    return CloudIcon;
   } else if (key === 'test') {
-    return ProjectIcon
+    return ProjectIcon;
   } else if (key === 'eject') {
-    return AddIcon
+    return AddIcon;
   } else {
-    return ProjectIcon
+    return ProjectIcon;
   }
 }
 
-export default function Projects () {
-  const history = useHistory()
-  const { t } = useTranslation('project')
-  const notification = useNotification()
-  const { socket, changeSelectedPath, darkTheme } = useContext(SettingsContext)
+export default function Projects() {
+  const history = useHistory();
+  const { t } = useTranslation('project');
+  const notification = useNotification();
+  const { socket, changeSelectedPath, darkTheme } = useContext(SettingsContext);
 
-  const [projects, setProjects] = useState<ProjectProps[]>([])
-  const [filters, setFilters] = useState<ProjectProps[]>([])
-  const [loading, setLoading] = useState(false)
-  const [tasks, setTask] = useState<any[]>([])
-  const [active, setActive] = useState(null)
+  const [projects, setProjects] = useState<ProjectProps[]>([]);
+  const [filters, setFilters] = useState<ProjectProps[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [tasks, setTask] = useState<any[]>([]);
+  const [active, setActive] = useState(null);
 
   useEffect(() => {
     socket.send({
-      type: 'GET_PROJECTS'
-    })
+      type: 'GET_PROJECTS',
+    });
 
     socket.send({
-      type: 'GET_CONFIG'
-    })
+      type: 'GET_CONFIG',
+    });
 
     socket.on('projects', (res: any) => {
       batch(() => {
-        setLoading(true)
-        setProjects(res.data)
-        setFilters(res.data)
+        setLoading(true);
+        setProjects(res.data);
+        setFilters(res.data);
         setTimeout(() => {
-          setLoading(false)
-        }, 300)
-      })
-    })
+          setLoading(false);
+        }, 300);
+      });
+    });
 
     socket.on('tasks', (res: any) => {
-      const data = Object.entries(res.data)
-      const list = []
+      const data = Object.entries(res.data);
+      const list = [];
       for (const [key, value] of data) {
-        list.push({ name: key, label: value, key: getKey(key), Icon: getIcon(key) })
+        list.push({ name: key, label: value, key: getKey(key), Icon: getIcon(key) });
       }
-      setTask(list)
-    })
+      setTask(list);
+    });
 
     socket.on('config', (res: any) => {
-      setActive(res.data?.lastOpenProject || 1)
-    })
+      setActive(res.data?.lastOpenProject || 1);
+    });
 
     socket.on('erro', (error: any) => {
-      setLoading(false)
+      setLoading(false);
       notification.error({
         title: error.title,
-        message: error.message
-      })
-    })
+        message: error.message,
+      });
+    });
 
     return () => {
-      socket.off('projects')
-      socket.off('config')
-      socket.off('tasks')
-      socket.off('erro')
-    }
-  }, [])
+      socket.off('projects');
+      socket.off('config');
+      socket.off('tasks');
+      socket.off('erro');
+    };
+  }, []);
 
-  function openProject (id: string) {
+  function openProject(id: string) {
     if (id) {
       socket.send({
         type: 'OPEN_PROJECT',
-        id
-      })
-      const project = projects.find(project => project.id === id)
-      changeSelectedPath(project.path)
-      history.push(Routes.DASHBOARD)
+        id,
+      });
+      const project = projects.find((project) => project.id === id);
+      changeSelectedPath(project.path);
+      history.push(Routes.DASHBOARD);
     }
   }
 
-  function handleListTasks (id: string) {
+  function handleListTasks(id: string) {
     if (id) {
       socket.send({
         type: 'GET_LIST_TASKS',
-        id
-      })
+        id,
+      });
     }
   }
 
-  function handleOpenEdit (path: string[]) {
+  function handleOpenEdit(path: string[]) {
     if (path.length) {
       socket.send({
         type: 'OPEN_EDIT_FILE',
-        path
-      })
+        path,
+      });
     }
   }
 
-  function handleFavorite (id: string) {
+  function handleFavorite(id: string) {
     if (id) {
       socket.send({
         type: 'ADD_FAVORITE_BY_ID',
-        id
-      })
+        id,
+      });
     }
   }
 
-  function handleDelete (id: string): void {
+  function handleDelete(id: string): void {
     if (id) {
       socket.send({
         type: 'DELETE_PROJECT_BY_ID',
-        id
-      })
+        id,
+      });
     }
   }
 
-  function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
-    const searchValue = event.target.value
-    const filter = projects.filter(project => project.name.indexOf(searchValue) !== -1)
-    setFilters(filter)
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const searchValue = event.target.value;
+    const filter = projects.filter((project) => project.name.indexOf(searchValue) !== -1);
+    setFilters(filter);
   }
 
   if (loading) {
@@ -173,15 +175,15 @@ export default function Projects () {
           <Loader />
         </Content>
       </Layout>
-    )
+    );
   }
 
   return (
     <Layout>
       <Content>
-        { projects.length ? <ProjectFilter onChange={handleChange} /> : null}
-        { filters.length
-          ? <ProjectList
+        {projects.length ? <ProjectFilter onChange={handleChange} /> : null}
+        {filters.length ? (
+          <ProjectList
             tasks={tasks}
             onTask={handleListTasks}
             active={active}
@@ -192,8 +194,10 @@ export default function Projects () {
             onFavorite={handleFavorite}
             onDelete={handleDelete}
           />
-          : <Empty text={t('notFoundProjects')} /> }
+        ) : (
+          <Empty text={t('notFoundProjects')} />
+        )}
       </Content>
     </Layout>
-  )
+  );
 }

@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import LoaderIcon from '@icons/react-logo.svg'
+import { ReactLogoIcon as LoaderIcon } from '@anya-ui/icons';
 
-import css from './style.module.less'
+import css from './style.module.less';
 
-export default function Loader () {
+export default function Loader() {
   return (
     <div className={css.loading}>
       <LoaderIcon />
     </div>
-  )
+  );
 }

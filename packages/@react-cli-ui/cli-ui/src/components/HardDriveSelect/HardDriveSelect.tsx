@@ -1,70 +1,72 @@
-import React, { useState, useEffect, useRef, useContext, useCallback } from 'react'
-import cn from 'classnames'
+import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
+import cn from 'classnames';
 
-import { SettingsContext } from '@context'
-import DropIcon from '@icons/drop-down.svg'
+import { SettingsContext } from '@context';
+import { DropDownIcon as DropIcon } from '@anya-ui/icons';
 
-import css from './style.module.less'
+import css from './style.module.less';
 
 interface Props {
   option: string[];
   edit(url: string[]): void;
 }
 
-export default function HardDriveSelect ({ option, edit }: Props) {
-  const { socket, darkTheme } = useContext(SettingsContext)
-  const [open, setOpen] = useState(false)
-  const [activeHardDrive, setActiveHardDrive] = useState('')
-  const divRef = useRef(null)
-  const btnRef = useRef(null)
+export default function HardDriveSelect({ option, edit }: Props) {
+  const { socket, darkTheme } = useContext(SettingsContext);
+  const [open, setOpen] = useState(false);
+  const [activeHardDrive, setActiveHardDrive] = useState('');
+  const divRef = useRef(null);
+  const btnRef = useRef(null);
 
   useEffect(() => {
-    document.addEventListener('mousedown', onClickOutside)
+    document.addEventListener('mousedown', onClickOutside);
 
     socket.on('selectedHardDrive', (res: any) => {
-      setActiveHardDrive(res.data)
-    })
+      setActiveHardDrive(res.data);
+    });
 
     return () => {
-      document.removeEventListener('mousedown', onClickOutside)
-      socket.off('selectedHardDrive')
-    }
-  }, [])
+      document.removeEventListener('mousedown', onClickOutside);
+      socket.off('selectedHardDrive');
+    };
+  }, []);
 
   const setHardDrive = useCallback(
     (hardDrive: string) => {
       socket.send({
         type: 'CHANGE_HARD_DRIVE',
-        name: hardDrive
-      })
-      edit([])
+        name: hardDrive,
+      });
+      edit([]);
     },
-    [option]
-  )
+    [option],
+  );
 
-  function onClickOutside () {
+  function onClickOutside() {
     if (
       divRef.current &&
       !divRef.current.contains(event.target) &&
       !btnRef.current.contains(event.target)
     ) {
-      setOpen(false)
+      setOpen(false);
     }
   }
 
-  function renderIcon () {
+  function renderIcon() {
     return (
       <div className={cn(css.icon, { [css.dark]: darkTheme })}>
         <span>{activeHardDrive}</span>
         <DropIcon />
       </div>
-    )
+    );
   }
 
-  function renderDrives () {
+  function renderDrives() {
     return option.map((drive: string) => (
-      <div key={drive} onClick={() => setHardDrive(drive)}>{drive}</div>
-    ))
+      <div key={drive} onClick={() => setHardDrive(drive)}>
+        {drive}
+      </div>
+    ));
   }
 
   return (
@@ -76,5 +78,5 @@ export default function HardDriveSelect ({ option, edit }: Props) {
         </div>
       )}
     </button>
-  )
+  );
 }

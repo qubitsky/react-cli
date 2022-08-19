@@ -1,9 +1,9 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import LinkIcon from '@icons/link.svg'
+import { LinkIcon } from '@anya-ui/icons';
 
-import css from './style.module.less'
+import css from './style.module.less';
 
 interface ItemProps {
   // TODO add type
@@ -12,20 +12,23 @@ interface ItemProps {
   change(active: string | null): void;
 }
 
-export default function ItemPackages ({ pkg, active, change }: any) {
+export default function ItemPackages({ pkg, active, change }: any) {
   // console.log(pkg)
-  const { t } = useTranslation('dependencies')
-  const { name, links, description, version } = pkg
-  const { repository } = links
+  const { t } = useTranslation('dependencies');
+  const { name, links, description, version } = pkg;
+  const { repository } = links;
 
-  function handleClick (name: string) {
-    change(name)
+  function handleClick(name: string) {
+    change(name);
   }
 
   return (
-    <div className={`${css.item} ${active === name ? css.active : ''}`} onClick={() => handleClick(name)} >
+    <div
+      className={`${css.item} ${active === name ? css.active : ''}`}
+      onClick={() => handleClick(name)}
+    >
       <div className={css.icon}>
-        {repository && <img src={`https://github.com/${repository.split('/', 4)[3]}.png`} alt=""/>}
+        {repository && <img src={`https://github.com/${repository.split('/', 4)[3]}.png`} alt="" />}
       </div>
       <div className={css.info}>
         <div className={css.name}>
@@ -36,11 +39,11 @@ export default function ItemPackages ({ pkg, active, change }: any) {
           <span>{description}</span>
           <span className={css.link}>
             <a href={repository} target="_blank" rel="noreferrer">
-              <LinkIcon/> {t('moreInfo')}
+              <LinkIcon /> {t('moreInfo')}
             </a>
           </span>
         </div>
       </div>
     </div>
-  )
+  );
 }

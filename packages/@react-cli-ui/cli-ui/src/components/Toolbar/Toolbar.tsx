@@ -7,11 +7,11 @@ import { Input } from 'common';
 import { useModal } from '@hooks';
 import { Dropdown } from '@components';
 import {
-  CreateFolderIcon,
+  FolderCreateFilledIcon as CreateFolderIcon,
   FolderFilledIcon,
   ArrowUpIcon,
-  RefrechIcon,
-  EditIcon,
+  RefreshIcon,
+  EditPenIcon as EditIcon,
   StarAddIcon,
   StarIcon,
 } from '@anya-ui/icons';
@@ -137,7 +137,7 @@ function Toolbar({
         </div>
         <div>
           <button onClick={updateFolderData} data-tip={t('tooltip.update')}>
-            {renderIcon(RefrechIcon)}
+            {renderIcon(RefreshIcon)}
           </button>
 
           <button onClick={() => addFavorite(!isFavorite)} data-tip={t('tooltip.favorite')}>

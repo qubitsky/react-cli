@@ -1,107 +1,106 @@
-import React, { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
-import cn from 'classnames'
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import cn from 'classnames';
 
-import Loader from '@icons/react-logo.svg'
+import { ReactLogoIcon as Loader } from '@anya-ui/icons';
 
-import { Content } from '@components'
-import { useModal, useNotification } from '@hooks'
-import { Input, Select } from 'common'
-import { FileManagerModal } from 'modals'
-import { SettingsContext } from 'context'
-import { Routes } from 'router'
+import { Content } from '@components';
+import { useModal, useNotification } from '@hooks';
+import { Input, Select } from 'common';
+import { FileManagerModal } from 'modals';
+import { SettingsContext } from 'context';
+import { Routes } from 'router';
 
-import css from './style.module.less'
-import mainCss from '@styles/main.module.less'
+import css from './style.module.less';
+import mainCss from '@styles/main.module.less';
 
 const optionsManager = [
   { value: 'npm', label: 'npm' },
-  { value: 'yarn', label: 'yarn' }
-]
+  { value: 'yarn', label: 'yarn' },
+];
 
 const optionsPreset = [
   { value: 'create-react-app', label: 'create-react-app' },
   { value: 'vue-create', label: 'vue create' },
   // TODO create custorm-react-app
   // { value: 'custom-react-app', label: 'custom-react-app' }
-]
+];
 
-export default function CreateProject () {
-  const { t } = useTranslation('projectCreate')
-  const history = useHistory()
-  const notification = useNotification()
-  const { socket, selectedPath, darkTheme } = React.useContext(SettingsContext)
+export default function CreateProject() {
+  const { t } = useTranslation('projectCreate');
+  const history = useHistory();
+  const notification = useNotification();
+  const { socket, selectedPath, darkTheme } = React.useContext(SettingsContext);
 
   const styles = cn(css.createContainer, {
-    [css.dark]: darkTheme
-  })
+    [css.dark]: darkTheme,
+  });
 
   // State
-  const { visible, showModal, closeModal } = useModal()
-  const [logInfo, setLogInfo] = useState('')
-  const [loading, setLoading] = useState(false)
+  const { visible, showModal, closeModal } = useModal();
+  const [logInfo, setLogInfo] = useState('');
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState({
     name: '',
     manager: optionsManager[0],
-    preset: optionsPreset[0]
-  })
+    preset: optionsPreset[0],
+  });
 
   useEffect(() => {
     socket.on('logging', (msg: any) => {
-      setLogInfo(msg.message)
-    })
+      setLogInfo(msg.message);
+    });
     socket.on('notification', () => {
-      setLoading(false)
-      history.push(Routes.DASHBOARD)
-    })
+      setLoading(false);
+      history.push(Routes.DASHBOARD);
+    });
     socket.on('erro', (error: any) => {
-      setLoading(false)
+      setLoading(false);
       notification.error({
         title: error.title,
-        message: error.message
-      })
-    })
+        message: error.message,
+      });
+    });
     return () => {
-      socket.off('logging')
-      socket.off('notification')
-      socket.off('erro')
-    }
-  }, [])
+      socket.off('logging');
+      socket.off('notification');
+      socket.off('erro');
+    };
+  }, []);
 
-  function handleChange ({ value, name }: { value: string, name: string }) {
-    setState((prevState) => ({ ...prevState, [name]: value }))
+  function handleChange({ value, name }: { value: string; name: string }) {
+    setState((prevState) => ({ ...prevState, [name]: value }));
   }
 
-  function renderAnimatedDots () {
+  function renderAnimatedDots() {
     return new Array(3).fill('.').map((content, i) => (
-      <i
-        key={`key-${i}`}
-        className={css[`loadingDot${i + 1}`]}
-      >
+      <i key={`key-${i}`} className={css[`loadingDot${i + 1}`]}>
         {content}
       </i>
-    ))
+    ));
   }
 
-  function createProject () {
-    const { name, manager, preset } = state
-    setLoading(true)
+  function createProject() {
+    const { name, manager, preset } = state;
+    setLoading(true);
     socket.send({
       type: 'CREATE_PROJECT',
       name,
       path: selectedPath,
       manager: manager.value,
-      preset: preset.value
-    })
+      preset: preset.value,
+    });
   }
 
   if (loading) {
     return (
       <Content>
-        <div className={cn(css.createContainer, css.loading, {
-          [css.dark]: darkTheme
-        })}>
+        <div
+          className={cn(css.createContainer, css.loading, {
+            [css.dark]: darkTheme,
+          })}
+        >
           <Loader />
           <span>
             {`${t('creatingProject')} ${state.name}`}
@@ -110,7 +109,7 @@ export default function CreateProject () {
           <div className={css.loadingDescription}>{logInfo}</div>
         </div>
       </Content>
-    )
+    );
   }
 
   return (
@@ -144,5 +143,5 @@ export default function CreateProject () {
         {`+ ${t('createProject')}`}
       </button>
     </Content>
-  )
+  );
 }

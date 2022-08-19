@@ -7,7 +7,7 @@ import { DropdownTasks } from '@components';
 import {
   OpenEditorIcon,
   StarAddIcon,
-  EditIcon,
+  EditPenIcon as EditIcon,
   CloseIcon,
   StarIcon,
   ReactLogoIcon,

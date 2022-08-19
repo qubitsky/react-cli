@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { SettingsContext } from 'context';
 import { Modal, FileManager } from '@components';
 
-import { EditIcon } from '@anya-ui/icons';
+import { EditPenIcon as EditIcon } from '@anya-ui/icons';
 
 import css from './style.module.less';
 

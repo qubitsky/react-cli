@@ -5,10 +5,13 @@ import { useHistory } from 'react-router-dom';
 import { Routes } from 'router';
 import { Project } from '../../containers/DashboardContainer/Dashboard';
 
-import AttachFileIcon from '@icons/attach-file.svg';
-import DropIcon from '@icons/drop-down.svg';
-import FolderIcon from '@icons/home-filled.svg';
-import { OpenEditorIcon, StarIcon } from '@anya-ui/icons';
+import {
+  AttachFileIcon,
+  OpenEditorIcon,
+  StarIcon,
+  DropDownIcon as DropIcon,
+  HomeFilledIcon as FolderIcon,
+} from '@anya-ui/icons';
 
 import css from './style.module.less';
 
